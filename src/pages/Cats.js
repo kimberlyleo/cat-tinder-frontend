@@ -4,13 +4,13 @@ import cats from '../cats'
 
 //this will save all our array of cats
 
-const Cats = () => {
+const Cats = (props) => {
     return(
         <div>
             <h1>Find your kitties</h1>
-             {cats.map((cat)=>{
+             {props.cats.map((cat, index)=>{
                  return(
-                     <li>
+                     <li key={index}>
                      <Link to={`/cats/${cat.id}`}>{cat.name}</Link>
                      </li>
                  )

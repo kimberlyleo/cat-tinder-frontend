@@ -7,7 +7,7 @@ import { Nav, NavItem, NavLink as Link } from 'reactstrap';
 import Home from './pages/Home';
 import Cats from './pages/Cats';
 import CatNew from './pages/CatNew';
-import cats from './cats';
+// import cats from './cats';
 import CatShow from './pages/CatShow';
 
 
@@ -15,9 +15,60 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state= {
-            cats: cats
+            cats: []
         }
+        this.getCats()
     }
+    componentnWillMount(){
+      this.getCats();
+  }
+
+  createCat = (cat)=> {
+  return fetch('http://localhost:3000/cats', {
+    body: JSON.stringify(cat),  // <- we need to stringify the json for fetch
+    headers: {  // <- We specify that we're sending JSON, and expect JSON back
+        'Content-Type': 'application/json'
+    },
+    method: "POST"  // <- Here's our verb, so the correct endpoint is invoked on the server
+  })
+  .then((response) => {
+      console.log(response)
+    if(response.ok){
+      return this.getCats()
+    }
+  })
+}
+    getCats = () => {
+        return (fetch("http://localhost:3000/cats",
+        {method: "GET"}
+        ).then((response)=>{
+            if(response.status === 200){
+                return(response.json())
+            }
+        })
+        .then((catsArray)=> {
+            this.setState({cats: catsArray})
+        }))
+    }
+//response= 404 so no return val need response 200
+    deleteCat = (id) => {
+        return (fetch(`http://localhost:3000/cats/${id}`,
+        {method: "DELETE"}
+        ).then((response) => {
+            console.log(response);
+            if(response.status === 200){
+                return(response.json())
+            }
+        })
+        .then((response)=> {
+            console.log(response);
+            if (response.ok){
+                return this.getCats()
+            }
+        }))
+    }
+
+
     render() {
     return (
          <Router>
@@ -27,7 +78,7 @@ class App extends React.Component {
               <div className="navbar-collapse collapse show" id="navbarColor01" >
                 <div className="navbar-nav mr-auto">
                   <NavItem className="nav-item active">
-                    <Link className="nav-link" href="/"><img src="/white-cat.webp" height="25px"/> Cat Tinder <div className="sr-only">(current)</div>
+                    <Link className="nav-link" href="/"><img src="/white-cat.webp" height="25px"/> Kitties Unhinged <div className="sr-only">(current)</div>
                     </Link>
                   </NavItem>
                   <NavItem className="nav-item">
@@ -46,9 +97,9 @@ class App extends React.Component {
 
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/catnew" exact component={CatNew} />
-                <Route path="/cats" exact component={Cats} />
-                <Route path="/cats/:id" exact component={CatShow} />
+                <Route path="/catnew" render={(props) =><CatNew  onSubmit={this.createCat} />}  />
+                <Route exact path="/cats" render={(props) => <Cats cats={this.state.cats} />} />
+                <Route path="/cats/:id" render={(props) => <CatShow onDelete={this.deleteCat} {...props} cats={this.state.cats} />} />
               </Switch>
             </div>
         </Router>

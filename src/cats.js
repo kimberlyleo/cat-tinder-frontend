@@ -35,7 +35,7 @@ const cats = [
         id:5,
         name: 'Luke Skywhisker',
         age: 6,
-        city: "Tatooine",
+        city: "Catooine",
         photo: "/luke.png",
         bio: "Just on here trying to stay pawsitive and find someone I'm not related to so I don't have to hang solo."
     },
