@@ -1,10 +1,11 @@
-## Front End porttion of "Cat Tinder" Class Project
+## Front End portion of "Cat Tinder" Class Project
 
-#### Front end built with React.js
+#### Front end built with React.js for full stack cat-tinder app
 ##### Currently in progress  
 
-#####Connected to:  (Cat-Tinder Backend)[https://github.com/kimberlyleo/cat-tinder-backend]  
+##### [Connected to:] (Cat-Tinder Backend)[https://github.com/kimberlyleo/cat-tinder-backend]  
 ##### Full Stack apps! Effective learning experience  
+
 
 Functional React.js on Rails app  
 Currently in progress    
